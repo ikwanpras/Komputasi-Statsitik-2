@@ -34,7 +34,7 @@ data_sim_cat <- data_sim_clean |>
 
 count(data_sim_cat, KAT_POV)
 # Menghitung berapa kabupaten di tiap kategori kemiskinan.
-# Konsepnya sama dengan bab “data tidying + transform”: numeric → kategori dengan mutate + case_when. [web:131][web:98]
+# Konsepnya sama dengan bab “data tidying + transform”: numeric → kategori dengan mutate + case_when. 
 
 # 5.2. Bentuk long dengan pivot_longer (indikator → baris)
 data_long <- data_sim_cat |>
@@ -47,7 +47,7 @@ data_long <- data_sim_cat |>
 
 glimpse(data_long)
 # Melihat struktur data long (cek bahwa sudah ada kolom indikator dan nilai).
-# Mirip bab “Data tidying”: pivot_longer mengubah banyak kolom indikator menjadi 1 kolom nama + 1 kolom nilai. [web:98][web:84]
+# Mirip bab “Data tidying”: pivot_longer mengubah banyak kolom indikator menjadi 1 kolom nama + 1 kolom nilai. 
 
 # 5.3. Boxplot per indikator (pakai data long)
 # Membuat boxplot distribusi nilai untuk setiap indikator.
@@ -92,7 +92,7 @@ library(car)
 
 vif(model_sim)
 # VIF dipakai luas untuk mendeteksi multikolinearitas di regresi,
-# seperti dibahas di banyak referensi statistik lanjutan. [web:110][web:115]
+# seperti dibahas di banyak referensi statistik lanjutan. 
 
 # 6.2. Tambah komponen kuadrat LOWEDU (hubungan non-linear)
 data_sim_quad <- data_sim_clean |>
@@ -105,7 +105,7 @@ model_quad <- lm(
 
 summary(model_quad)
 # Ini contoh “model yang lebih kaya” seperti di bagian model building:
-# menambah term non-linear dan membandingkan dengan model linear awal. [web:79][web:111]
+# menambah term non-linear dan membandingkan dengan model linear awal. 
 
 # 6.3. Visualisasi garis kuadratik
 ggplot(data_sim_quad,
