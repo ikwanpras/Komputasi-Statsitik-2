@@ -12,20 +12,20 @@
 # 0. PERSIAPAN PAKET
 # ------------------------------------------------------------
 # tidyverse = kumpulan paket inti (ggplot2, dplyr, readr, tibble, dll.)
-# Buku R4DS menggunakan tidyverse sebagai "bahasa utama" data science. [web:21][web:131]
+# Buku R4DS menggunakan tidyverse sebagai "bahasa utama" data science. 
 install.packages("tidyverse")   # cukup sekali di komputer; bisa di-comment setelah terpasang
 library(tidyverse)
 
 # ------------------------------------------------------------
 # 1. MEMBANGKITKAN DATA SINTETIS (SEPERTI CONTOH BAB MODEL) 
 # ------------------------------------------------------------
-# Di R4DS, Hadley sering membuat data simulasi untuk memahami model. [web:79][web:140]
+# Di R4DS, Hadley sering membuat data simulasi untuk memahami model. 
 # Di sini: 50 kabupaten dengan 3 variabel penjelas dan 1 variabel target.
 
 set.seed(123)      # agar angka acak bisa diulang (reproducible)
 n_kab <- 50        # jumlah baris data
 
-# tibble(): versi modern dari data.frame, digunakan di R4DS. [web:131]
+# tibble(): versi modern dari data.frame, digunakan di R4DS. 
 data_sim <- tibble(
   KAB        = paste("Kab", 1:n_kab),             # nama kabupaten fiktif
   LOWEDU     = runif(n_kab, 10, 40),              # % pendidikan rendah (runif: angka acak seragam antara 10 dan 40.)
@@ -35,7 +35,7 @@ data_sim <- tibble(
 
 # Bangkitkan POVERTY dengan fungsi linear + noise:
 #   POVERTY = 5 + 0.4*LOWEDU + 0.6*NOELECTRIC - 0.3*GROWTH + error
-# Ide ini sama dengan contoh "model dari data simulasi" di bab model basics. [web:79][web:111]
+# Ide ini sama dengan contoh "model dari data simulasi" di bab model basics. 
 data_sim <- data_sim |>
   mutate(                 #mutate() menambah kolom baru bernama POVERTY.
     POVERTY = 5 +
@@ -45,18 +45,18 @@ data_sim <- data_sim |>
       rnorm(n_kab, mean = 0, sd = 3)   # error acak
   )
 
-glimpse(data_sim)         # mirip yang digunakan di R4DS untuk melihat struktur data [web:131]
+glimpse(data_sim)         # mirip yang digunakan di R4DS untuk melihat struktur data 
 summary(data_sim$POVERTY)
 
 # ------------------------------------------------------------
 # 2. TRANSFORMASI DATA DENGAN DPLYR
 # ------------------------------------------------------------
-# Bagian ini paralel dengan bab "Data transformation" (select, filter, mutate, summarise). [web:131][web:133]
+# Bagian ini paralel dengan bab "Data transformation" (select, filter, mutate, summarise). 
 
 # 2.1. Pembersihan ringan (drop_na)
 data_sim_clean <- data_sim |>
   drop_na()
-# drop_na(): dipakai umum di R4DS untuk menghapus baris dengan NA sebelum analisis. [web:98]
+# drop_na(): dipakai umum di R4DS untuk menghapus baris dengan NA sebelum analisis. 
 
 # 2.2. Ringkasan sederhana: rata-rata tiap variabel numerik
 ringkasan_mean <- data_sim_clean |>
@@ -76,7 +76,7 @@ data_sim_clean <- data_sim_clean |>
                          "Tinggi", "Rendah")
   )
 
-# group_by() + summarise() = pola yang sangat ditekankan di R4DS. [web:131][web:133]
+# group_by() + summarise() = pola yang sangat ditekankan di R4DS. 
 ringkasan_kelompok <- data_sim_clean |>
   group_by(GRP_GROWTH) |>
   summarise(
@@ -91,7 +91,7 @@ ringkasan_kelompok
 # ------------------------------------------------------------
 # 3. VISUALISASI DENGAN GGPLOT2
 # ------------------------------------------------------------
-# Mengikuti pola bab "Data visualization" (mpg) tapi dengan data kita sendiri. [web:123][web:124]
+# Mengikuti pola bab "Data visualization" (mpg) tapi dengan data kita sendiri. 
 
 # 3.1. Scatter plot LOWEDU vs POVERTY + garis regresi
 ggplot(data_sim_clean,
@@ -118,7 +118,7 @@ ggplot(data_sim_clean,
     color = "Kelompok GROWTH"
   ) +
   theme_minimal()
-# facet_wrap(): sama seperti contoh facetting di bab visualisasi (memecah grafik per grup). [web:124][web:126]
+# facet_wrap(): sama seperti contoh facetting di bab visualisasi (memecah grafik per grup).
 
 # 3.3. Histogram POVERTY
 ggplot(data_sim_clean,
@@ -130,12 +130,12 @@ ggplot(data_sim_clean,
     y     = "Jumlah kabupaten"
   ) +
   theme_minimal()
-# Histogram/density sering dipakai di R4DS untuk mengecek bentuk distribusi. [web:123]
+# Histogram/density sering dipakai di R4DS untuk mengecek bentuk distribusi. 
 
 # ------------------------------------------------------------
 # 4. MODEL REGRESI LINEAR DASAR
 # ------------------------------------------------------------
-# Sangat paralel dengan bab "Model basics" (fit model ke data simulasi, lalu visualisasi residual). [web:79][web:140]
+# Sangat paralel dengan bab "Model basics" (fit model ke data simulasi, lalu visualisasi residual). 
 
 # 4.1. Fit model linear 
 # lm() adalah fungsi di R untuk membuat model linier
@@ -169,11 +169,11 @@ ggplot(data_sim_model,
   ) +
   theme_minimal()
 # Di R4DS, grafik ini dipakai untuk mengecek apakah asumsi linearitas dan
-# varians konstan kira-kira terpenuhi (pola residual acak di sekitar garis 0). [web:79][web:120]
+# varians konstan kira-kira terpenuhi (pola residual acak di sekitar garis 0). 
 
 # 4.4. QQ-plot residual (cek normalitas)
 qqnorm(data_sim_model$resid)
 qqline(data_sim_model$resid, col = "red")
 # Di bab model diagnostics, R4DS memakai QQ-plot untuk menilai apakah residual
 # qqnorm(...); qqline(...) QQ-plot residual untuk mengecek apakah residual mendekati distribusi normal.
-# mendekati distribusi normal (titik mengikuti garis lurus). [web:79][web:120]
+# mendekati distribusi normal (titik mengikuti garis lurus). 
